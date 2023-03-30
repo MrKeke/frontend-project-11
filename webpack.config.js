@@ -11,6 +11,9 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
   },
+  experiments: {
+    topLevelAwait: true
+  },
   devServer: {
     static: path.resolve(__dirname, 'dist'),
     port: 8080,
@@ -19,6 +22,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' })
   ],
+  
   module: {
     rules: [
       {
