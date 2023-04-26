@@ -1,8 +1,8 @@
-export default function elements(){
-const elements = {
+export default function elements(key) {
+  const elements = {
     errorP: document.querySelector("#dangerError"),
-    input: document.querySelector('input'),
-    btn: document.querySelector('#add'),
-  }
-  return elements
+    input: document.querySelector("input"),
+    btn: document.querySelector("#add"),
+  };
+  return elements[key];
 }
