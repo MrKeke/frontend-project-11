@@ -5,9 +5,9 @@ import { createPosts } from './post.js';
 
 export default function render(state) {
   if (errorHandler(state)) {
-    const [post,feed] = [htmlparser(state)];
-    state.post = post
-    state.feed = feed
+    const [post, feed] = [htmlparser(state)];
+    state.post = post;
+    state.feed = feed;
     const { title, poststatus, feedstatus } = createPosts(state);
     state.poststatus = poststatus;
     state.feedstatus = feedstatus;

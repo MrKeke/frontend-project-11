@@ -32,7 +32,7 @@ export function createPosts(state) {
     feedsDiv.append(feedDiv);
     feedsDiv.append(feedUl);
   }
-  const feeds = ''
+  const feeds = '';
   const titile = posts.reverse().map(([title, link, description]) => {
     const postLi = document.createElement('li');
     postLi.classList.add(
