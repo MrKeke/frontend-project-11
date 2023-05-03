@@ -12,6 +12,7 @@ let state = {
   },
   content: '',
   post: [],
+  feed: [],
   inActivePost: [],
   poststatus: false,
   feedstatus: false,

@@ -1,7 +1,10 @@
 import elements from './elements.js';
 
 export function createPosts(state) {
-  const [posts] = state.post;
+  const posts = state.post;
+  const feed = state.feed
+  // console.log(posts);
+  // console.log('ff', feed);
   const postDiv = document.createElement('div');
   postDiv.classList.add('card', 'border-0');
   const cardBody = document.createElement('div');
@@ -32,7 +35,21 @@ export function createPosts(state) {
     feedsDiv.append(feedDiv);
     feedsDiv.append(feedUl);
   }
-  const feeds = '';
+  // console.log(feed)
+  const feeds = feed.reverse().map(([titile,desc])=>{
+    const feedLi = document.createElement('li')
+    feedLi.classList.add('list-group-item' ,'border-0' ,'border-end-0')
+    const feedH3 = document.createElement('h3')
+    feedH3.classList.add('h6' ,'m-0')
+    feedH3.textContent = titile
+    const feedp = document.createElement('p')
+    feedp.classList.add('m-0' ,'small' ,'text-black-50')
+    feedp.textContent = desc
+    feedLi.prepend(feedH3)
+    feedLi.append(feedp)
+    feedUl.prepend(feedLi)
+  })
+
   const titile = posts.reverse().map(([title, link, description]) => {
     const postLi = document.createElement('li');
     postLi.classList.add(
