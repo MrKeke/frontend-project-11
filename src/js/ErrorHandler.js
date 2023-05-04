@@ -1,41 +1,33 @@
-import elements from './elements.js';
+import elements from "./elements.js";
 
 export default function errorHandler(state) {
-  if (state.status.errors.includes('invalid')) {
-    elements('errorP').classList.add('text-danger');
-    elements('errorP').classList.remove('text-success');
-    elements('errorP').textContent = 'Ресурс не содержит валидный RSS';
-    return false;
-  } if (state.status.errors.includes('not URL')) {
-    elements('errorP').classList.add('text-danger');
-    elements('errorP').classList.remove('text-success');
-    elements('errorP').textContent = 'Ссылка должна быть валидным URL';
+  if (state.status.errors.includes("invalid")) {
+    elements("errorP").classList.add("text-danger");
+    elements("errorP").classList.remove("text-success");
+    elements("errorP").textContent = "Ресурс не содержит валидный RSS";
     return false;
   }
-  if (state.status.errors.includes('RSS include')) {
-    elements('errorP').classList.add('text-danger');
-    elements('errorP').classList.remove('text-success');
-    elements('errorP').textContent = 'RSS уже существует';
-    console.log('err');
+  if (state.status.errors.includes("not URL")) {
+    elements("errorP").classList.add("text-danger");
+    elements("errorP").classList.remove("text-success");
+    elements("errorP").textContent = "Ссылка должна быть валидным URL";
     return false;
   }
-  // else if(false){
-  // elements("errorP").classList.add('text-danger')
-  // elements("errorP").classList.remove('text-success')
-  // elements("errorP").textContent = "'RSS уже существует'";
-  // return false
-  // }
+  if (state.status.errors.includes("RSS include")) {
+    elements("errorP").classList.add("text-danger");
+    elements("errorP").classList.remove("text-success");
+    elements("errorP").textContent = "RSS уже существует";
+    return false;
+  }
   if (state.status.valid) {
-    elements('errorP').textContent = 'RSS успешно загружен';
-    elements('errorP').classList.add('text-success');
-    elements('errorP').classList.remove('text-danger');
+    elements("errorP").textContent = "RSS успешно загружен";
+    elements("errorP").classList.add("text-success");
+    elements("errorP").classList.remove("text-danger");
     return true;
-  }else{
-    elements('errorP').classList.add('text-danger');
-    elements('errorP').classList.remove('text-success');
-    elements('errorP').textContent = 'Нет сети';
-    console.log('err');
+  } else {
+    elements("errorP").classList.add("text-danger");
+    elements("errorP").classList.remove("text-success");
+    elements("errorP").textContent = "Нет сети";
     return false;
   }
-  throw new Error('Что-то пошло не такq');
 }
