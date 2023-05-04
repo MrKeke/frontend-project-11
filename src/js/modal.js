@@ -1,28 +1,24 @@
-import elements from "./elements.js";
-function modalopen(info){
-    console.log(info)
-    const modalDiv = document.createElement('div')
-    modalDiv.classList.add('modal-backdrop' ,'fade' ,'show')
-    elements('body').append(modalDiv)
-    console.log(elements('divModal'))
-    elements('body').classList.add('modal-open')
-    elements('body').setAttribute('style','overflow: hidden; padding-right: 0px;')
-    elements('divModal').setAttribute('style','display: block;')
-    elements('divModal').classList.add('show')
+import elements from './elements.js';
 
-
-// aria-modal="true"
-
-}
-export default function postBtnsHandler(state){
-    const post = state.post
-    elements('postBtns').forEach((postBtn)=>{
-        postBtn.addEventListener('click',(e)=>{
-            e.preventDefault()
-            const index = e.target.id
-            console.log(post[index])
-            modalopen(post[index]) 
-            
-        })
-    })
+export default function postBtnsHandler(state) {
+  const { post } = state;
+  elements('postBtns').forEach((postBtn) => {
+    postBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const index = e.target.id;
+      const [title, href, body] = post[index];
+      elements('mTitle').textContent = title;
+      console.log(elements('mHref'));
+      elements('mHref').href = href;
+      elements('mBody').textContent = body;
+      e.target.previousSibling.classList.remove('fw-bold');
+      e.target.previousSibling.classList.add('fw-normal', 'link-secondary');
+    });
+  });
+  document.querySelectorAll('.fw-bold').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      e.target.classList.remove('fw-bold');
+      e.target.classList.add('fw-normal', 'link-secondary');
+    });
+  });
 }

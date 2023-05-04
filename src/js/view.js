@@ -1,16 +1,16 @@
-import * as Yup from "yup";
-import axios from "axios";
+import * as Yup from 'yup';
+import axios from 'axios';
 
-let content = "";
+let content = '';
 const schema = Yup.object().shape({
   url: Yup.string()
-    .url("not URL")
-    .test("valid", "invalid", async (value) => {
+    .url('not URL')
+    .test('valid', 'invalid', async (value) => {
       const response = await axios.get(
-        `https://allorigins.hexlet.app/get?url=${value}`
+        `https://allorigins.hexlet.app/get?url=${value}`,
       );
       content = response.data.contents;
-      return response.data.contents.includes("<title>");
+      return response.data.contents.includes('<title>');
     }),
 });
 export default async function valid(data) {
