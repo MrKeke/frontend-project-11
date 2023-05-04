@@ -5,15 +5,21 @@ import { createPosts } from './post.js';
 
 export default function render(state) {
   if (errorHandler(state)) {
-    const [post,feeds] = htmlparser(state)
+    const [post, feeds] = htmlparser(state);
     state.post = post;
     // console.log(htmlparser(state));
-    state.feed = feeds
-    console.log(state.feed)
-    const { title, poststatus, feedstatus } = createPosts(state);
+    state.feed = feeds;
+    // console.log(state.feed)
+    const {
+      activefeed, titile, poststatus, feedstatus,
+    } = createPosts(state);
     state.poststatus = poststatus;
     state.feedstatus = feedstatus;
-    state.inActivePost.push(title);
+    // console.log(createPosts(activefeed));
+    // console.log(activefeed)
+    state.inActivePost.post.push(...titile);
+    state.inActivePost.feed.push(...activefeed);
+    // console.log(state)
     return state;
   }
   return state;

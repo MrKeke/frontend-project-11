@@ -16,8 +16,9 @@ module.exports = {
   },
   devServer: {
     static: path.resolve(__dirname, "dist"),
-    port: 8001,
+    port: 8000,
     hot: true,
+    open: true,
   },
   plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
   module: {

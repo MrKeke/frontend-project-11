@@ -12,6 +12,13 @@ export default function errorHandler(state) {
     elements('errorP').textContent = 'Ссылка должна быть валидным URL';
     return false;
   }
+  if (state.status.errors.includes('RSS include')) {
+    elements('errorP').classList.add('text-danger');
+    elements('errorP').classList.remove('text-success');
+    elements('errorP').textContent = 'RSS уже существует';
+    console.log('err');
+    return false;
+  }
   // else if(false){
   // elements("errorP").classList.add('text-danger')
   // elements("errorP").classList.remove('text-success')
@@ -23,6 +30,12 @@ export default function errorHandler(state) {
     elements('errorP').classList.add('text-success');
     elements('errorP').classList.remove('text-danger');
     return true;
+  }else{
+    elements('errorP').classList.add('text-danger');
+    elements('errorP').classList.remove('text-success');
+    elements('errorP').textContent = 'Нет сети';
+    console.log('err');
+    return false;
   }
   throw new Error('Что-то пошло не такq');
 }
