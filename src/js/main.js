@@ -4,6 +4,7 @@ import valid from './validator.js';
 import render from './render.js';
 import elements from './elements.js';
 import postBtnsHandler from './ModalHandler.js';
+import timer from './timeout';
 
 let state = {
   status: {
@@ -34,6 +35,6 @@ elements('btn').addEventListener('click', async (e) => {
   state = Object.assign(state, newState);
   elements('input').value = '';
   postBtnsHandler(state);
-  // console.log(state)
+  await timer(state)
 });
 // https://buzzfeed.com/world.xml

@@ -1,4 +1,5 @@
 export default function htmlparser(state) {
+  console.log('f',state.content)
   const div = document.createElement('div');
   div.innerHTML = state.content;
   const items = div.querySelectorAll('item');
@@ -17,7 +18,6 @@ export default function htmlparser(state) {
       item.querySelector('description').textContent,
     ]);
   });
-  // console.log(feeds);
-  // console.log(post)
+
   return [post, feeds];
 }
