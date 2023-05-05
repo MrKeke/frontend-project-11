@@ -1,9 +1,9 @@
 import '../css/styles.scss';
 import 'bootstrap';
-import valid from './view.js';
+import valid from './validator.js';
 import render from './render.js';
 import elements from './elements.js';
-import postBtnsHandler from './modal.js';
+import postBtnsHandler from './ModalHandler.js';
 
 let state = {
   status: {
