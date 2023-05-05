@@ -7,7 +7,7 @@ const schema = Yup.object().shape({
     .url('not URL')
     .test('valid', 'invalid', async (value) => {
       const response = await axios.get(
-        `https://allorigins.hexlet.app/get?url=${value}`,
+        `https://allorigins.hexlet.app/get?disableCache=true&url=${value}`,
       );
       content = response.data.contents;
       return response.data.contents.includes('<title>');

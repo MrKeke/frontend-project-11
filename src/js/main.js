@@ -5,7 +5,7 @@ import render from './render.js';
 import elements from './elements.js';
 import postBtnsHandler from './ModalHandler.js';
 import timer from './timeout';
-
+//disableCache
 let state = {
   status: {
     url: [],
