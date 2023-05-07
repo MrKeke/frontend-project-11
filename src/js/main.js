@@ -5,7 +5,6 @@ import render from './render.js';
 import elements from './elements.js';
 import postBtnsHandler from './ModalHandler.js';
 import timer from './timeout';
-//disableCache
 let state = {
   status: {
     url: [],
@@ -16,11 +15,8 @@ let state = {
   post: [],
   feed: [],
   inActivePost: { post: [], feed: [] },
-  poststatus: false,
-  feedstatus: false,
 };
 
-// console.log(state.elements.btn);
 elements('btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const { value } = elements('input');
@@ -35,6 +31,4 @@ elements('btn').addEventListener('click', async (e) => {
   state = Object.assign(state, newState);
   elements('input').value = '';
   postBtnsHandler(state);
-  await timer(state)
 });
-// https://buzzfeed.com/world.xml

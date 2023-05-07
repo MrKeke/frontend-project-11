@@ -4,7 +4,6 @@ let i = 0;
 export function createPosts(state) {
   const posts = state.post;
   const { feed } = state;
-  // const post = state.inActivePost.post
   const checkinclude = (key) => state.inActivePost.post.includes(key);
   const postDiv = document.createElement('div');
   postDiv.classList.add('card', 'border-0');
@@ -15,12 +14,6 @@ export function createPosts(state) {
   posth2.textContent = 'Посты';
   const postUl = document.createElement('ul');
   postUl.classList.add('list-group', 'border-0', 'rounded-0');
-  if (!state.poststatus) {
-    postDiv.prepend(cardBody);
-    elements('poster').append(postDiv);
-    cardBody.append(posth2);
-    cardBody.append(postUl);
-  }
   const feedsDiv = document.createElement('div');
   feedsDiv.classList.add('card', 'border-0');
   const feedDiv = document.createElement('div');
@@ -31,7 +24,12 @@ export function createPosts(state) {
   const feedUl = document.createElement('ul');
   feedUl.classList.add('list-group', 'border-0', 'rounded-0');
   feedUl.setAttribute('id', 'feedUl');
-  if (!state.feedstatus) {
+  console.log(elements('poster').innerHTML)
+  if (!elements('poster').innerHTML.includes('h4')) {
+    postDiv.prepend(cardBody);
+    elements('poster').append(postDiv);
+    cardBody.append(posth2);
+    cardBody.append(postUl);
     elements('feeds').append(feedsDiv);
     feedDiv.append(feedh2);
     feedsDiv.append(feedDiv);

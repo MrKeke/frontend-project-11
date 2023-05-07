@@ -10,7 +10,7 @@ const schema = Yup.object().shape({
         `https://allorigins.hexlet.app/get?disableCache=true&url=${value}`,
       );
       content = response.data.contents;
-      return response.data.contents.includes('<rss>');
+      return response.data.contents.includes('<title>');
     }),
 });
 export default async function valid(data) {
