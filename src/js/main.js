@@ -4,29 +4,21 @@ import valid from './validator.js';
 import render from './render.js';
 import elements from './elements.js';
 import postBtnsHandler from './ModalHandler.js';
-import timer from './timeout';
+
 let state = {
+  lng: document.querySelector('html').lang,
   status: {
     url: [],
-    valid: '',
-    errors: [],
   },
-  content: '',
-  post: [],
-  feed: [],
   inActivePost: { post: [], feed: [] },
 };
-
 elements('btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const { value } = elements('input');
-  const { success, errors, content } = await valid(value);
+  await valid(value);
   state.status.valid = success;
   state.content = content;
   state.status.errors = errors;
-  if (state.status.url.includes(value)) {
-    state.status.errors.push('RSS include');
-  } else state.status.url.push(value);
   const { newState } = render(state);
   state = Object.assign(state, newState);
   elements('input').value = '';
