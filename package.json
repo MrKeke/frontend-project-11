@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "RSS project",
   "main": "index.js",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MrKeke/frontend-project-11.git"
