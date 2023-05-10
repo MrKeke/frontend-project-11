@@ -1,10 +1,10 @@
-import axios from 'axios';
-import i18next from 'i18next';
-import { uniqueId } from 'lodash';
-import { string, setLocale } from 'yup';
-import rawXMLparser from './parser.js';
-import viewWatchedState from './view.js';
-import resources from './locales/index.js';
+import axios from "axios";
+import i18next from "i18next";
+import { uniqueId } from "lodash";
+import { string, setLocale } from "yup";
+import rawXMLparser from "./parser.js";
+import viewWatchedState from "./view.js";
+import resources from "./locales/index.js";
 
 const updatePeriod = 5000;
 
@@ -14,46 +14,64 @@ const validateURL = (state, url) => {
   return schema.validate(url);
 };
 
-const processParsedFeed = (data, url) => ({ ...data, id: uniqueId(), link: url });
+const processParsedFeed = (data, url) => ({
+  ...data,
+  id: uniqueId(),
+  link: url,
+});
 
 const processParsedPosts = (data, feedID, state) => {
   const newPosts = data.map((item) => ({ ...item, id: uniqueId(), feedID }));
-  return newPosts.filter((newPost) => state.posts.every(
-    (statePost) => newPost.title !== statePost.title
-      || (newPost.title === statePost.title && newPost.feedID !== statePost.feedID),
-  ));
+  return newPosts.filter((newPost) =>
+    state.posts.every(
+      (statePost) =>
+        newPost.title !== statePost.title ||
+        (newPost.title === statePost.title &&
+          newPost.feedID !== statePost.feedID)
+    )
+  );
 };
 
-const getFeed = (url) => axios
-  .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`)
-  .then((response) => response.data.contents);
+const getFeed = (url) =>
+  axios
+    .get(
+      `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(
+        url
+      )}`
+    )
+    .then((response) => response.data.contents);
 
 const updatePosts = (state) => {
-  const promises = state.feeds.map((feed) => getFeed(feed.link)
-    .then((rawXML) => {
+  const promises = state.feeds.map((feed) =>
+    getFeed(feed.link).then((rawXML) => {
       const [, parsedPosts] = rawXMLparser(rawXML);
       const postsItem = processParsedPosts(parsedPosts, feed.id, state);
       if (postsItem.length > 0) state.posts = [...postsItem, ...state.posts];
-    }));
-  Promise.all(promises)
-    .finally(() => setTimeout(() => { updatePosts(state); }, updatePeriod));
+    })
+  );
+  Promise.all(promises).finally(() =>
+    setTimeout(() => {
+      updatePosts(state);
+    }, updatePeriod)
+  );
 };
 
 const app = () => {
-  const defaultLanguage = 'ru';
+  const defaultLanguage = "ru";
   const i18n = i18next.createInstance();
-  i18n.init({
-    lng: defaultLanguage,
-    debug: false,
-    resources,
-  })
+  i18n
+    .init({
+      lng: defaultLanguage,
+      debug: false,
+      resources,
+    })
     .then(() => {
       setLocale({
         string: {
-          url: 'ui.rssForm.yup.invalidUrlError',
+          url: "ui.rssForm.yup.invalidUrlError",
         },
         mixed: {
-          notOneOf: 'ui.rssForm.yup.existUrlError',
+          notOneOf: "ui.rssForm.yup.existUrlError",
         },
       });
       const initialState = {
@@ -61,33 +79,35 @@ const app = () => {
         posts: [],
         ui: {
           viewedPostsID: [],
-          modalButtonID: '',
+          modalButtonID: "",
         },
         rssForm: {
-          status: 'invalid',
-          error: '',
+          status: "invalid",
+          error: "",
         },
       };
       const elements = {
-        form: document.querySelector('form'),
-        input: document.getElementById('url-input'),
-        formSubmitButton: document.querySelector('form .btn-primary'),
-        feedback: document.querySelector('.feedback'),
-        postsContainer: document.querySelector('.posts'),
-        feedsContainer: document.querySelector('.feeds'),
-        modalTitle: document.querySelector('.modal-title'),
-        modalBody: document.querySelector('.modal-body'),
-        modalMoreButton: document.querySelector('.full-article'),
-        modalCloseButton: document.querySelector('.modal-footer > .btn-secondary'),
+        form: document.querySelector("form"),
+        input: document.getElementById("url-input"),
+        formSubmitButton: document.querySelector("form .btn-primary"),
+        feedback: document.querySelector(".feedback"),
+        postsContainer: document.querySelector(".posts"),
+        feedsContainer: document.querySelector(".feeds"),
+        modalTitle: document.querySelector(".modal-title"),
+        modalBody: document.querySelector(".modal-body"),
+        modalMoreButton: document.querySelector(".full-article"),
+        modalCloseButton: document.querySelector(
+          ".modal-footer > .btn-secondary"
+        ),
       };
       const state = viewWatchedState(initialState, elements, i18n);
       const { form, postsContainer } = elements;
 
-      form.addEventListener('submit', (e) => {
+      form.addEventListener("submit", (e) => {
         e.preventDefault();
-        state.rssForm.status = 'processing';
+        state.rssForm.status = "processing";
         const formData = new FormData(e.target);
-        const url = formData.get('url');
+        const url = formData.get("url");
         validateURL(state, url)
           .then(() => getFeed(url))
           .then((rawXML) => {
@@ -96,24 +116,28 @@ const app = () => {
             state.feeds.push(feed);
 
             const newPosts = processParsedPosts(parsedPosts, feed.id, state);
-            if (newPosts.length > 0) state.posts = [...newPosts, ...state.posts];
-            state.rssForm.status = 'success';
+            if (newPosts.length > 0)
+              state.posts = [...newPosts, ...state.posts];
+            state.rssForm.status = "success";
           })
           .catch((err) => {
-            state.rssForm.status = 'invalid';
+            state.rssForm.status = "invalid";
             state.rssForm.error = err;
           });
       });
 
-      postsContainer.addEventListener('click', (e) => {
+      postsContainer.addEventListener("click", (e) => {
         const { id } = e.target.dataset;
         if (id) {
           state.ui.modalButtonID = id;
-          if (!state.ui.viewedPostsID.includes(id)) state.ui.viewedPostsID.push(id);
+          if (!state.ui.viewedPostsID.includes(id))
+            state.ui.viewedPostsID.push(id);
         }
       });
 
-      setTimeout(() => { updatePosts(state); }, updatePeriod);
+      setTimeout(() => {
+        updatePosts(state);
+      }, updatePeriod);
     });
 };
 
